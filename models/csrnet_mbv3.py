@@ -1,10 +1,11 @@
 import torch.nn as nn
 from torchvision.models import mobilenet_v3_small
+from torchvision import models
 
 class CSRNetMobile(nn.Module):
     def __init__(self):
         super(CSRNetMobile, self).__init__()
-        base_model = mobilenet_v3_small(pretrained=True)
+        base_model = mobilenet_v3_small(weights=models.MobileNet_V3_Small_Weights.DEFAULT)
         self.frontend = base_model.features
         
         self.backend = nn.Sequential(
