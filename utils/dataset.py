@@ -28,12 +28,20 @@ class CrowdDataset(Dataset):
         img_path = os.path.join(self.img_dir, img_name)
         gt_path = os.path.join(self.gt_dir, 'GT_' + img_name.replace('.jpg', '.mat'))
 
-        img = Image.open(img_path).convert('RGB')
-        img = self.transform(img)
-
+        # load original image (tanpa resize dulu)
+        img_raw = Image.open(img_path).convert('RGB')
         mat = sio.loadmat(gt_path)
-        points = mat['image_info'][0][0][0][0][0]  # array of [x, y] points
-        density_map = self.generate_density_map(np.array(img.shape[1:]), points)
+        points = mat['image_info'][0][0][0][0][0]
+
+        # generate density map dari ukuran asli
+        img_np = np.array(img_raw)
+        density_map = self.generate_density_map(img_np.shape[:2], points)
+
+        # transformasi baru diterapkan ke image (bukan density)
+        img = self.transform(img_raw)
+
+        # resize density map jika perlu (misal output model 1/8 dari input)
+        density_map = cv2.resize(density_map, (28, 28))
 
         return img, torch.from_numpy(density_map).unsqueeze(0).float()
 
