@@ -3,7 +3,7 @@ import torch
 from torch import nn, optim
 from torch.utils.data import DataLoader
 from models.csrnet_vgg import CSRNet
-from utils.dataset import CrowdDataset
+from utils.vgg_dataset import CrowdDataset
 from datetime import datetime
 
 # --- Konfigurasi ---
