@@ -19,4 +19,7 @@ onnxruntime
 tf2onnx 
 tensorflow
 pillow
+
+# Spatio temporal
+ai-edge-litert
 ```
