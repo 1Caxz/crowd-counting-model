@@ -13,11 +13,11 @@ from models.csrnet_vgg import CSRNet
 from utils.vgg_dataset import CrowdDataset
 from utils.helper import *
 
-TEACHER = "csrnet_vgg_B.pth"
-STUDENTCKPT = "build/kd_B_mobilecsrnet_kd.pth"
-TRAINJSON = "dataset/json/part_B_train.json"
-TESTJSON = "dataset/json/part_B_test.json"
-PART = "kd_B"
+TEACHER = "build/csrnet_vgg_A.pth"
+STUDENTCKPT = "build/kd_A_mobilecsrnet_kd.pth"
+TRAINJSON = "dataset/json/part_A_train.json"
+TESTJSON = "dataset/json/part_A_val.json"
+PART = "kd_A"
 
 
 def main():
