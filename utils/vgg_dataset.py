@@ -12,7 +12,7 @@ import h5py
 class CrowdDataset(Dataset):
     def __init__(self, root, shape=None, shuffle=True, transform=None,  train=False, seen=0, batch_size=1, num_workers=4):
         if train:
-            root = root
+            root = root * 4
         random.shuffle(root)
 
         self.nSamples = len(root)
@@ -52,7 +52,7 @@ def load_data(img_path, train=True):
     # gt_file = h5py.File(gt_path)
     # target = np.asarray(gt_file['density'])
     with h5py.File(gt_path, 'r') as gt_file:
-        target = np.asarray(gt_file['density']).astype(np.float32)
+        target = np.asarray(gt_file['density'])
     if False:
         crop_size = (img.size[0] // 2, img.size[1] // 2)
         if random.randint(0, 9) <= -1:
@@ -61,14 +61,6 @@ def load_data(img_path, train=True):
         else:
             dx = int(random.random() * img.size[0] * 0.5)
             dy = int(random.random() * img.size[1] * 0.5)
-
-        # crop_size = (img.size[0]/2, img.size[1]/2)
-        # if random.randint(0, 9) <= -1:
-        #     dx = int(random.randint(0, 1)*img.size[0]*1./2)
-        #     dy = int(random.randint(0, 1)*img.size[1]*1./2)
-        # else:
-        #     dx = int(random.random()*img.size[0]*1./2)
-        #     dy = int(random.random()*img.size[1]*1./2)
 
         img = img.crop((dx, dy, crop_size[0]+dx, crop_size[1]+dy))
         target = target[dy:crop_size[1]+dy, dx:crop_size[0]+dx]
